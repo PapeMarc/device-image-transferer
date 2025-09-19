@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
+[assembly: UsesPermission(Android.Manifest.Permission.AccessNetworkState)]
 namespace device_image_transferer
 {
     [Application]
