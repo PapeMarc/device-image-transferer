@@ -4,12 +4,31 @@
              x:Class="device_image_transferer.RecieverPage"
              Title="Recieve image from external Device"
              xmlns:viewmodel="clr-namespace:device_image_transferer.ViewModels"
-             x:DataType="viewmodel:RecieverPageViewModel">
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="This side will generate a QR Code with the neccessary lan-connection details and than open a listener."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="viewmodel:RecieverPageViewModel"
+             xmlns:um="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:ub="http://schemas.enisn-projects.io/dotnet/maui/uraniumui">
+
+    <Grid RowSpacing="30" Padding="11" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="320">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label StyleClass="ErrorContainer" Padding="11">
+            Warning! This QR-Code provides your private Network-Information. Please use it with caution!
+        </Label>
+        
+        <Border Grid.Row="1" BackgroundColor="White" Padding="11">
+            <Image Grid.Row="1" Source="{Binding QrImage}">
+                <Image.Effects>
+                    <ub:BlurEffect/>
+                </Image.Effects>
+            </Image>
+        </Border>
+
+        
+
+        <Button Grid.Row="2" StyleClass="FilledButton" TextColor="White" Text="Generate QR-Code" Command="{Binding GenerateQRCodeCommand}"/>
+    </Grid>
 </ContentPage>
