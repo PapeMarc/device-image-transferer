@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using device_image_transferer.Model;
 using QRCoder;
 using System.Net;
 using System.Net.Sockets;
@@ -13,11 +14,12 @@ namespace device_image_transferer.ViewModels
         ImageSource qrImage;
 
         [RelayCommand]
-        public void GenerateQRCode()
+        public async Task GenerateQRCodeAndAwaitImage()
         {
             string networkInfo = GetNetworkInformation();
+            int appPort = 2003;
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
-            using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(networkInfo, QRCodeGenerator.ECCLevel.Q))
+            using (QRCodeData qrCodeData = qrGenerator.CreateQrCode($"{networkInfo};{appPort}", QRCodeGenerator.ECCLevel.Q))
             using (PngByteQRCode qrCode = new PngByteQRCode(qrCodeData))
             {
                 byte[] qrCodeBytes = qrCode.GetGraphic(
@@ -27,6 +29,10 @@ namespace device_image_transferer.ViewModels
                 QrImage = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
             }
             OnPropertyChanged(nameof(QrImage));
+            ImageReciever reciever = new ImageReciever();
+            
+            string message = await reciever.AwaitImageFromNetwork(appPort);
+            Console.WriteLine(message);
         }
 
         private string GetNetworkInformation()

@@ -9,5 +9,15 @@ namespace device_image_transferer
             InitializeComponent();
             BindingContext = mpvm;
         }
+
+        protected override async void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                await DisplayAlert("Internet Connection Error", "No internet connection detected. Please connect to a network and try again.", "Ok.");
+            }
+        }
     }
 }
