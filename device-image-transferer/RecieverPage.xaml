@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="device_image_transferer.RecieverPage"
-             Title="Recieve image from external Device"
              xmlns:viewmodel="clr-namespace:device_image_transferer.ViewModels"
              x:DataType="viewmodel:RecieverPageViewModel"
              xmlns:um="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:ub="http://schemas.enisn-projects.io/dotnet/maui/uraniumui">
+             xmlns:ub="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             Title="Recieve image">
 
     <Grid RowSpacing="30" Padding="11" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="320">
         <Grid.RowDefinitions>
@@ -20,15 +20,9 @@
         </Label>
         
         <Border Grid.Row="1" BackgroundColor="White" Padding="11">
-            <Image Grid.Row="1" Source="{Binding QrImage}">
-                <Image.Effects>
-                    <ub:BlurEffect/>
-                </Image.Effects>
-            </Image>
+            <Image Grid.Row="1" Source="{Binding QrImage}"/>
         </Border>
 
-        
-
-        <Button Grid.Row="2" StyleClass="FilledButton" TextColor="White" Text="Generate QR-Code" Command="{Binding GenerateQRCodeCommand}"/>
+        <Button Grid.Row="2" StyleClass="FilledButton" TextColor="White" Text="Refresh QR-Code" Command="{Binding GenerateQRCodeCommand}"/>
     </Grid>
 </ContentPage>

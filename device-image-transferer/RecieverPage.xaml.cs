@@ -9,4 +9,13 @@ public partial class RecieverPage : ContentPage
 		InitializeComponent();
 		BindingContext = rpvm;
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is RecieverPageViewModel vm)
+        {
+            vm.GenerateQRCode();
+        }
+    }
 }
