@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="device_image_transferer.MainPage"
+             xmlns:um="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:viewmodel="clr-namespace:device_image_transferer.ViewModels"
+             x:DataType="viewmodel:MainPageViewModel"
+             Title="">
+
+    <Grid Padding="11" HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".25*"/>
+            <RowDefinition Height=".25*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Grid.Row="0" Source="tyche.png" BackgroundColor="Transparent"/>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="14">
+            <Button StyleClass="FilledButton" TextColor="White" Text="Recieve Image" Command="{Binding NavigateToRecieverPageCommand}"/>
+            <Button StyleClass="FilledButton" TextColor="White" Text="Scan Code and send Image" Command="{Binding NavigateToTransmitterPageCommand}"/>
+        </VerticalStackLayout>
+
+
+    </Grid>
+
+</ContentPage>

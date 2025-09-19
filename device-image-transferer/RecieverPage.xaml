@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="device_image_transferer.RecieverPage"
+             Title="Recieve image from external Device"
+             xmlns:viewmodel="clr-namespace:device_image_transferer.ViewModels"
+             x:DataType="viewmodel:RecieverPageViewModel">
+    
+    <VerticalStackLayout>
+        <Label 
+            Text="This side will generate a QR Code with the neccessary lan-connection details and than open a listener."
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
