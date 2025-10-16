@@ -7,51 +7,55 @@
              x:DataType="viewmodel:TransmitterPageViewModel"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              xmlns:mf="clr-namespace:UraniumUI.Icons.MaterialIcons;assembly=UraniumUI.Icons.MaterialIcons">
+    <Grid>
+        <Grid Padding="11" HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="24" x:Name="BarcodeReaderGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height=".40*"/>
+                <RowDefinition Height=".30*"/>
+            </Grid.RowDefinitions>
 
-    <Grid Padding="11" HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height=".40*"/>
-            <RowDefinition Height=".30*"/>
-        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".40*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".40*"/>
-        </Grid.ColumnDefinitions>
-
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="16" Grid.Row="0">
-            <Label Text="Scanning for QR-Codes" FontSize="Large"/>
-            <ActivityIndicator Color="DarkBlue" IsRunning="True" x:Name="activityIndicator"/>
-            <Image x:Name="successIcon" IsVisible="False">
-                <Image.Source>
-                    <FontImageSource Glyph="{x:Static mf:MaterialSharp.Check}"
-                         FontFamily="MaterialSharp"
-                         Size="36"
-                         Color="Green"/>
-                </Image.Source>
-            </Image>
-            <Label Text="&#xEA7C;" FontFamily="MaterialSharp" />
-
-        </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="16" Grid.Row="0">
+                <Label Text="Scanning for QR-Codes" FontSize="Large"/>
+                <ActivityIndicator Color="DarkBlue" IsRunning="True" x:Name="activityIndicator"/>
+                <Image x:Name="successIcon" IsVisible="False">
+                    <Image.Source>
+                        <FontImageSource Glyph="{x:Static mf:MaterialSharp.Check}"
+                     FontFamily="MaterialSharp"
+                     Size="36"
+                     Color="Green"/>
+                    </Image.Source>
+                </Image>
+                <Label Text="&#xEA7C;" FontFamily="MaterialSharp" />
+            </HorizontalStackLayout>
 
 
-        <Border BackgroundColor="Transparent"
-                StrokeShape="RoundRectangle 24"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                Grid.Row="1" >
+            <Border BackgroundColor="Transparent"
+            StrokeShape="RoundRectangle 24"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Grid.Row="1" >
 
-            <Border.Shadow>
-                <Shadow Brush="Gray"
-                    Offset="10,10"
-                    Radius="20"
-                    Opacity="0.7"/>
-            </Border.Shadow>
+                <Border.Shadow>
+                    <Shadow Brush="Gray"
+                Offset="10,10"
+                Radius="20"
+                Opacity="0.7"/>
+                </Border.Shadow>
 
-            <zxing:CameraBarcodeReaderView
-                x:Name="barcodeReader"
-                BarcodesDetected="barcodeReader_BarcodesDetected"/>
-        </Border>
+                <zxing:CameraBarcodeReaderView
+            x:Name="barcodeReader"
+            BarcodesDetected="barcodeReader_BarcodesDetected"/>
+            </Border>
+        </Grid>
+
+        <Grid IsVisible="False" x:Name="CameraGrid">
+            <Button Clicked="OnTakeAndSendClicked" Text="Take Picture"/>
+            <Image x:Name="PerviewImage"/>
+        </Grid>
     </Grid>
-    
 </ContentPage>
