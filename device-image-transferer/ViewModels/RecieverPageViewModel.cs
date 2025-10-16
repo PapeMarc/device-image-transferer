@@ -11,7 +11,10 @@ namespace device_image_transferer.ViewModels
     public partial class RecieverPageViewModel: ObservableObject
     {
         [ObservableProperty]
-        ImageSource qrImage;
+        ImageSource? qrImage;
+
+        [ObservableProperty]
+        bool qrImageNotFound;
 
         [RelayCommand]
         public async Task GenerateQRCodeAndAwaitImage(RecieverPage page)
@@ -27,16 +30,19 @@ namespace device_image_transferer.ViewModels
                             drawQuietZones: false
                         );
                 QrImage = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
+                QrImageNotFound = true;
             }
             OnPropertyChanged(nameof(QrImage));
+            OnPropertyChanged(nameof(QrImageNotFound));
             ImageReciever reciever = new ImageReciever();
             
             string message = await reciever.AwaitImageFromNetwork(appPort);
 
-            Application.Current.Dispatcher.DispatchAsync(async () =>
-            {
-                await page.DisplayAlert("Recieved a message.", message, "Ok.");
-            });
+            if (Application.Current != null)
+                _ = Application.Current.Dispatcher.DispatchAsync(async () =>
+                {
+                    await page.DisplayAlert("Recieved a message.", message, "Ok.");
+                });
         }
 
         private string GetNetworkInformation()

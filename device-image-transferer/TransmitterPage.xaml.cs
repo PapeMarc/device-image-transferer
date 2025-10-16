@@ -24,8 +24,7 @@ public partial class TransmitterPage : ContentPage
     {
         var first = e.Results.FirstOrDefault();
 
-        if (first == null)
-            return;
+        if (first == null) return;
 
         Dispatcher.DispatchAsync(async () =>
         {
@@ -53,22 +52,27 @@ public partial class TransmitterPage : ContentPage
 
         Application.Current!.Dispatcher.DispatchAsync(async () =>
         {
-            var payload = first.Value;
-            string[] targetInfo = payload.Split(';');
+            var payload = first.Value.Trim();
+            string[] targetInfo = payload.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-            if (targetInfo.Length.Equals(2))
+            if (targetInfo.Length != 2) { 
+                await DisplayAlert("QR", $"Unerwartet: {payload}", "OK"); 
+                return; 
+            }
+
+            string host = targetInfo[0];
+            int port = int.Parse(targetInfo[1]);
+
+            ImageTransmitter transmitter = new ImageTransmitter();
+            Console.WriteLine("Trying to send..");
+            try
             {
-                ImageTransmitter transmitter = new ImageTransmitter();
-                Console.WriteLine("Trying to send..");
-                try
-                {
-                    await transmitter.SendMessageAsync(targetInfo[0], Convert.ToInt32(targetInfo[1]), "Erster Test!");
-                    await DisplayAlert("Message Sent.", "The image was sent successfully.", "Ok.");
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"An error occurred while sending the image: {ex.Message}", "Ok.");
-                }
+                await transmitter.SendMessageAsync(host, port, "Testnachricht.");
+                await DisplayAlert("Message Sent.", "The image was sent successfully.", "Ok.");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"An error occurred while sending the image: {ex.Message}", "Ok.");
             }
         });
     }
