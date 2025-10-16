@@ -66,7 +66,10 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
 		<PackageReference Include="QRCoder" Version="1.6.0" />
 		<PackageReference Include="UraniumUI.Blurs" Version="2.12.1" />
+		<PackageReference Include="UraniumUI.Icons.MaterialIcons" Version="2.12.1" />
 		<PackageReference Include="UraniumUI.Material" Version="2.12.1" />
+		<PackageReference Include="ZXing.Net.Maui" Version="0.5.2" />
+		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.5.2" />
 	</ItemGroup>
 
 	<ItemGroup>

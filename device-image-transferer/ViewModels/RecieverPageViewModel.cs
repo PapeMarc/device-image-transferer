@@ -14,7 +14,7 @@ namespace device_image_transferer.ViewModels
         ImageSource qrImage;
 
         [RelayCommand]
-        public async Task GenerateQRCodeAndAwaitImage()
+        public async Task GenerateQRCodeAndAwaitImage(RecieverPage page)
         {
             string networkInfo = GetNetworkInformation();
             int appPort = 2003;
@@ -32,7 +32,11 @@ namespace device_image_transferer.ViewModels
             ImageReciever reciever = new ImageReciever();
             
             string message = await reciever.AwaitImageFromNetwork(appPort);
-            Console.WriteLine(message);
+
+            Application.Current.Dispatcher.DispatchAsync(async () =>
+            {
+                await page.DisplayAlert("Recieved a message.", message, "Ok.");
+            });
         }
 
         private string GetNetworkInformation()

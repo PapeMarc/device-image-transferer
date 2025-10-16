@@ -1,6 +1,7 @@
 ﻿using device_image_transferer.ViewModels;
 using Microsoft.Extensions.Logging;
 using UraniumUI;
+using ZXing.Net.Maui.Controls;
 
 namespace device_image_transferer
 {
@@ -14,10 +15,13 @@ namespace device_image_transferer
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()
                 .UseUraniumUIBlurs()
+                .UseBarcodeReader()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+                    fonts.AddMaterialIconFonts();
                 })
                 .Services.AddSingleton<MainPage>()
                 .AddSingleton<MainPageViewModel>()
