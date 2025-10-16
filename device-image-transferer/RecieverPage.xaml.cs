@@ -15,7 +15,7 @@ public partial class RecieverPage : ContentPage
 
         if (BindingContext is RecieverPageViewModel vm)
         {
-            vm.GenerateQRCodeAndAwaitImage();
+            _ = vm.GenerateQRCodeAndAwaitImage(this);
         }
     }
 }

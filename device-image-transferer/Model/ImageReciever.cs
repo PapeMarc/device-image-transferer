@@ -7,36 +7,34 @@ namespace device_image_transferer.Model
 {
     public class ImageReciever
     {
-        public async Task<string> AwaitImageFromNetwork(int port)
+        public async Task<string> AwaitImageFromNetwork(int port, TimeSpan? timeout = null)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
                 return "Error";
 
             var endpoint = new IPEndPoint(IPAddress.Any, port);
             TcpListener listener = new(endpoint);
+            listener.Start();
+            timeout ??= TimeSpan.FromMinutes(2);
 
             try
             {
-                listener.Start();
-                
+
                 var acceptTask = listener.AcceptTcpClientAsync();
-                var timeoutTask = Task.Delay(TimeSpan.FromMinutes(2));
-                var completedTask = await Task.WhenAny(acceptTask, timeoutTask);
+                var completed = await Task.WhenAny(acceptTask, Task.Delay(timeout.Value));
 
-                if (completedTask == timeoutTask)
-                {
-                    return "Timeout - no connection within 2 minutes.";
-                }
+                if (completed != acceptTask)
+                    return $"Timeout - no connection within {timeout.Value.TotalMinutes} minutes.";
 
-                using TcpClient handler = await listener.AcceptTcpClientAsync();
-                await using NetworkStream stream = handler.GetStream();
+                using var client = await acceptTask;
+                await using NetworkStream stream = client.GetStream();
+                using StreamReader reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: false);
 
-                var buffer = new byte[1_024];
-                int received = await stream.ReadAsync(buffer);
+                var line = await reader.ReadLineAsync();
+                if (line is null)
+                    return "Connection closed without data.";
 
-                var message = Encoding.UTF8.GetString(buffer, 0, received);
-
-                return $"Recieved following message: \"{message}\"";
+                return $"Received message: \"{line}\"";
             }
             finally
             {
